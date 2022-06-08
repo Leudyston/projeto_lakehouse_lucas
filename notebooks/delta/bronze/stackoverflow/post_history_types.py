@@ -5,23 +5,19 @@ from pyspark.sql.functions import date_format, from_utc_timestamp, current_times
 # COMMAND ----------
 
 param = {
-    "dir_origem": "/mnt/raw/processing/stackoverflow/Tags.xml",
-    "dir_destino": "/mnt/delta/bronze/stackoverflow/tags",
+    "dir_origem": "/mnt/raw/processing/stackoverflow/PostHistoryTypes.csv",
+    "dir_destino": "/mnt/delta/bronze/stackoverflow/post_history_types",
     "esquema_origem": StructType([
-        StructField("_Id", LongType(), True),
-        StructField("_TagName", StringType(), True),
-        StructField("_Count", IntegerType(), True),
-        StructField("_ExcerptPostId", LongType(), True),
-        StructField("_WikiPostId", LongType(), True)
+        StructField("Id", LongType(), True),
+        StructField("Name", StringType(), True)
     ]),
-    "root_tag": "tags",
-    "tabela_destino": "tags",
+    "tabela_destino": "post_history_types",
     "esquema_destino": "bronze"
 }
 
 # COMMAND ----------
 
-df = spark.read.format("xml").options(rootTag=param['root_tag'], rowTag="row").load(param['dir_origem'], schema = param['esquema_origem'])
+df = spark.read.format("csv").options(header='True', delimiter=',').load(param['dir_origem'], schema = param['esquema_origem'])
 
 # COMMAND ----------
 

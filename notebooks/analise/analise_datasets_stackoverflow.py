@@ -129,3 +129,7 @@ createOrReplaceTempView(df_badges)
 
 # MAGIC %sql
 # MAGIC SELECT * FROM df_badges
+
+# COMMAND ----------
+
+
