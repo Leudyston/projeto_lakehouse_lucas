@@ -11,8 +11,9 @@ param = {
         StructField("_Id", LongType(), True),
         StructField("_PostId", LongType(), True),
         StructField("_VoteTypeId", IntegerType(), True),
-        StructField("_UserId", IntegerType(), True),
-        StructField("_CreationDate", TimestampType(), True)
+        StructField("_UserId", LongType(), True),
+        StructField("_CreationDate", TimestampType(), True),
+        StructField("_BountyAmount", LongType(), True)
     ]),
     "root_tag": "votes",
     "tabela_destino": "votes",
@@ -41,3 +42,52 @@ df_com_data_controle.write.format("delta").mode("overwrite").option("overwriteSc
 spark.sql("DROP TABLE IF EXISTS {esquema_destino}.{tabela_destino}".format(**param))
 spark.sql("CREATE TABLE {esquema_destino}.{tabela_destino} USING DELTA LOCATION '{dir_destino}'".format(**param))
 display(spark.sql("SELECT * FROM {esquema_destino}.{tabela_destino} LIMIT 100".format(**param)))
+
+# COMMAND ----------
+
+spark.sql("DESCRIBE HISTORY {esquema_destino}.{tabela_destino}".format(**param))
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC DESCRIBE HISTORY bronze.votes;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC RESTORE TABLE bronze.votes TO VERSION AS OF 1
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT * FROM bronze.votes
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC DESCRIBE HISTORY bronze.votes;
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC RESTORE TABLE bronze.votes TO VERSION AS OF 4
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT * FROM bronze.votes
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT COUNT(*) FROM bronze.votes
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC DESCRIBE DETAIL bronze.votes
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT * FROM bronze.votes; 

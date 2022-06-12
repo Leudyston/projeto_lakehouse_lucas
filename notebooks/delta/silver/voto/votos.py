@@ -27,6 +27,7 @@ df_ajusta_colunas = ( df
         .withColumnRenamed("_Id", "ID_VOTO")
         .withColumnRenamed("_PostId", "ID_POSTAGEM")
         .withColumnRenamed("_UserId", "ID_USUARIO")
+        .withColumnRenamed("_VoteTypeId", "ID_TIPO_VOTO")
         .withColumnRenamed("_CreationDate", "DT_CRIACAO_POSTAGEM")
         .select('ID_VOTO', 'ID_POSTAGEM', 'ID_USUARIO', 'DT_CRIACAO_POSTAGEM')
 )
